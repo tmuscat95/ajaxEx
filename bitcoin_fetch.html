@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h2></h2>
+       <div>
+           <span>
+                <select>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                </select>
+           </span>
+           <span>
+               <button>Refresh</button>
+           </span>
+        </div>
+        
+        <script>
+            var btcInfo = {};
+            var XHR = new XMLHttpRequest();
+            var price_h2 = document.querySelector("h2");
+            var menu = document.querySelector("select");
+            var button = document.querySelector("button");
+
+          
+           
+            function getPrice(){
+                fetch("https://api.coindesk.com/v1/bpi/currentprice.json")
+                .then(function(response){
+                    if(!response.ok)
+                        throw Error(response.status + " Problem connecting to Coinbase.");
+                    return response.json();
+                }).then(function(data){
+                    switch (menu.selectedOptions[0].value) {
+                        case "EUR":
+                            price_h2.innerText = data.bpi.USD.rate + " €" ;
+                            break;
+                        case "USD":
+                            price_h2.innerText = data.bpi.EUR.rate + " $";
+                            break;
+                        
+                        case "GBP":
+                            price_h2.innerText = data.bpi.GBP.rate + " £";
+                            break;
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                    h2.innerText = err;
+                });
+
+                
+            }
+            
+            button.addEventListener("click",getPrice);
+
+            menu.addEventListener("change",getPrice);
+
+            getPrice();
+        </script>
+    </body>
+</html>

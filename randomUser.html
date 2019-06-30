@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .details{
+            display: inline-block;   
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <img src=""><h2 class="details"></h2>
+        <br>
+        <span id="gender" class="details">Gender: </span><span id="age" class="details">Age: </span>
+        <br>
+        <span id="email" class="details">Email: </div>
+    </div>
+</body>
+<script>
+    var url = 'https://randomuser.me/api/';
+    var name = document.querySelector("h2");
+    var gender = document.querySelector("#gender");
+    var age = document.querySelector("#age");
+    var email = document.querySelector("#email");
+    var image = document.querySelector("img");
+    fetch(url)
+    .then(function(response){
+        if(!response.ok)
+            throw Error(response.status);
+        return response.json();
+    }).then(function(data){
+        gender.innerText += data.results[0].gender;
+        name.innerText = name.innerText +  data.results[0].name.title + "." + data.results[0].name.first +" " + data.results[0].name.last;
+        age.innerText += data.results[0].dob.age;
+        email.innerText += data.results[0].email;
+        image.src =  data.results[0].picture.thumbnail;
+    }).catch(function(err){
+        console.log(err);
+        name.innerText += err;
+    });
+
+</script>
+</html>

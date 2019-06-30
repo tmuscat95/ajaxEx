@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <title>Ron Swanson</title>
+</head>
+<body>
+    <h2></h2>
+    <button id="XHR">XHR</button>
+    <button id="fetch">Fetch</button>
+    <button id="jquery">jQuery</button>
+    <button id="axios">Axios</button>
+
+    <script>
+        var XHR = new XMLHttpRequest();
+        var quote = "";
+        var url = "https://ron-swanson-quotes.herokuapp.com/v2/quotes";
+
+        function set(){
+            $("h2").text(quote);
+        }
+
+        XHR.onreadystatechange = function(){
+            if(XHR.status==200 && XHR.readyState == 4){
+                quote = JSON.parse(XHR.responseText)[0];
+                set();
+            }
+
+
+        }
+
+
+        $("#XHR").on("click",function(){
+            XHR.open("GET",url);
+            XHR.send();
+        });
+
+        $("#fetch").on("click",function(){
+            fetch(url)
+            .then(function(res){
+                if(!res.ok)
+                    console.log("API Error");
+
+                return res.json();
+            })
+            .then(function(data){
+                quote = data[0];
+                set();
+            });
+        });
+
+        $("#jquery").on("click",function(){
+            $.getJSON(url)
+            .done(function(data){
+                quote = data[0];
+                set();
+            })
+        });
+
+        $("#axios").on("click",function(){
+            axios.get(url)
+            .then(function(response){
+                if(response.statusText != "OK")
+                    throw Error(response.status);
+                quote = response.data[0];
+                set();
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+            
+        });
+    </script>
+
+</body>
+
+   
+</html>

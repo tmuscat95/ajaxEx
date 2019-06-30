@@ -1,0 +1,27 @@
+<html>
+    <head></head>
+    <body>
+        <img src="">
+        <br>
+        <button id="button">Press</button>
+        <script>
+           var XHR = new XMLHttpRequest();
+           var button = document.querySelector("#button");
+           var image = document.querySelector("img");
+
+            XHR.onreadystatechange = function(){
+                    if(XHR.readyState==4 && XHR.status==200){
+                        image.src = JSON.parse(XHR.responseText)["message"];              
+                        
+                    }
+                }
+
+            button.addEventListener("click",function(){
+                XHR.open("GET","https://dog.ceo/api/breeds/image/random");
+                XHR.send();   
+            }); 
+
+
+        </script>
+    </body>
+</html>

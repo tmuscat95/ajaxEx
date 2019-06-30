@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .details{
+            display: inline-block;   
+        }
+    </style>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .details{
+            display: inline-block;   
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <img src=""><h2 class="details"></h2>
+        <br>
+        <span id="gender" class="details">Gender: </span><span id="age" class="details">Age: </span>
+        <br>
+        <span id="email" class="details">Email: </div>
+    </div>
+<script>
+    var url = 'https://randomuser.me/api/';
+    var _name = $("h2");
+    var gender = $("#gender");
+    var age = $("#age");
+    var email = $("#email");
+    var image = $("img");
+    
+    $.getJSON(url)
+    .done(function(data){
+        gender.text(data.results[0].gender);
+        _name.text(_name.text() + data.results[0].name.title + "." + data.results[0].name.first +" " + data.results[0].name.last);
+        age.text(data.results[0].dob.age);
+        email.text(email.text() + data.results[0].email);
+        image.attr("src",data.results[0].picture.thumbnail);
+    }).fail(function( jqxhr, textStatus, error ) {
+    var err = textStatus + ", " + error;
+    console.log( "Request Failed: " + err );
+    });
+
+</script>
+</body>
+</html>
